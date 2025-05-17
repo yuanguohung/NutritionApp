@@ -4,7 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Define FoodItem and HistoryItem interfaces
+// Define FoodItem and HistoryItem interfaces 
 interface FoodItem {
   name: string;
   calories: number;

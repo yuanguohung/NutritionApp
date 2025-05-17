@@ -7,6 +7,7 @@ export default function RootLayout() {
         <App>
             <BottomTab />
         </App>
+        
       </>
     );
 }
