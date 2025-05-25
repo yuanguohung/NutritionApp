@@ -1,77 +1,100 @@
-🍎 NutritionApp
-Ứng dụng theo dõi dinh dưỡng hằng ngày được phát triển bằng React Native và Expo, giúp người dùng ghi lại món ăn, lượng nước uống, và theo dõi lịch sử ăn uống.
-Giao diện đơn giản, dễ dùng, phù hợp cho mọi đối tượng.
+# 🥗 NutritionApp
 
-🚀 Tính năng chính
+Ứng dụng theo dõi dinh dưỡng hằng ngày được phát triển bằng React Native và Expo. Giúp người dùng ghi lại thông tin dinh dưỡng và theo dõi chế độ ăn uống một cách dễ dàng.
 
-🥗 Ghi nhật ký thực phẩm
-➤ Thêm món ăn kèm thông tin dinh dưỡng: calo, protein, carbs, chất béo
+## ✨ Tính năng chính
 
-☁️ Lưu trữ dữ liệu bằng Firebase Firestore
-➤ Bảo mật và truy cập mọi lúc mọi nơi
+### 📝 Quản lý thực phẩm
+- Thêm/sửa/xóa món ăn 
+- Theo dõi calories, protein, carbs, chất béo
+- Đánh dấu món ăn yêu thích
+- Tìm kiếm món ăn nhanh chóng
 
-💾 Hỗ trợ offline với AsyncStorage
-➤ Không cần internet vẫn hoạt động mượt
+### 💧 Theo dõi nước uống
+- Ghi lại lượng nước uống hàng ngày
+- Đặt mục tiêu nước uống
+- Xem thống kê theo ngày/tuần
 
-🌟 Đánh dấu yêu thích
-➤ Truy cập nhanh các món ăn thường dùng
+### 📊 Thống kê & Báo cáo
+- Xem lịch sử ăn uống
+- Biểu đồ dinh dưỡng trực quan
+- Phân tích chế độ ăn
 
-🎨 Splash screen tùy chỉnh
-➤ Màn hình khởi động đẹp mắt, cá nhân hóa
+### 🔄 Đồng bộ dữ liệu
+- Lưu trữ trên Firebase Firestore
+- Hỗ trợ sử dụng offline với AsyncStorage
+- Đồng bộ tự động khi có internet
 
-📱 Tải về APK
-📦 nutritiontracker.apk
-Bạn có thể tải file .apk và cài đặt trực tiếp trên điện thoại Android.
+## 🚀 Cài đặt
 
-🛠️ Cài đặt & chạy ứng dụng
-Yêu cầu:
-✅ Node.js >= 14
+### Yêu cầu hệ thống
+- Node.js >= 14
+- Expo CLI
+- Tài khoản Firebase (để sử dụng Firestore)
 
-✅ Expo CLI
+### Các bước cài đặt
 
-✅ Tài khoản Firebase (nếu muốn dùng Firestore)
-
-Cài đặt:
-bash
-Sao chép
-Chỉnh sửa
+1. Clone repository:
+```bash
 git clone https://github.com/yuanguohung/NutritionApp.git
 cd NutritionApp
+```
+
+2. Cài đặt dependencies:
+```bash
 npm install
-Chạy ứng dụng:
-bash
-Sao chép
-Chỉnh sửa
+```
+
+3. Chạy ứng dụng:
+```bash
 npx expo start
-📱 Mở app Expo Go trên điện thoại và quét mã QR để dùng ngay!
+```
 
-📁 Cấu trúc thư mục
-bash
-Sao chép
-Chỉnh sửa
+4. Quét mã QR bằng Expo Go trên điện thoại để chạy app
+
+## 📱 Tải về
+
+Bạn có thể tải trực tiếp file APK và cài đặt trên Android:
+[Download nutritiontracker.apk](https://github.com/yuanguohung/NutritionApp/blob/main/nutritriontracker.apk)
+
+## 🗂️ Cấu trúc project
+
+```
 NutritionApp/
-├── app/ # Routing (Expo Router)
-├── assets/ # Hình ảnh, icon, splash,...
-├── components/ # Các UI component tái sử dụng
-├── firebase/ # Cấu hình Firebase
-├── navigation/ # Điều hướng chính
-├── screens/ # Màn hình Food, Water, History,...
-├── services/ # Dịch vụ lưu dữ liệu
-├── App.tsx # Điểm khởi đầu
-├── app.json # Cấu hình Expo
-├── eas.json # Cấu hình EAS Build
-└── nutritriontracker.apk # File APK đã build
-🔐 Thông tin kỹ thuật
-Thành phần Công nghệ
-Ngôn ngữ TypeScript
-Framework React Native + Expo
-Lưu trữ backend Firebase Firestore
-Lưu offline AsyncStorage
-Build app EAS Build
+├── app/                  # Routing (Expo Router)
+├── assets/              # Images, icons, splash screens
+│   └── images/          # App images
+├── components/          # Reusable UI components
+├── firebase/           # Firebase configuration
+├── navigation/         # Navigation setup
+├── screens/            # Main app screens
+├── services/           # Data & business logic
+└── types/             # TypeScript definitions
+```
 
-📸 Giao diện ứng dụng
-(Chèn ảnh chụp màn hình hoặc video demo nếu có)
+## 🛠️ Công nghệ sử dụng
 
-📄 Giấy phép
-Dự án được phát hành theo giấy phép MIT.
-Nếu bạn có câu hỏi hoặc góp ý, hãy tạo issue tại repo này nhé!
+- **Frontend:** React Native, Expo
+- **Backend:** Firebase Firestore
+- **Language:** TypeScript
+- **Storage:** AsyncStorage
+- **Build:** EAS Build
+
+## 📄 License
+
+MIT License - xem file [LICENSE](LICENSE) để biết thêm chi tiết
+
+## 🤝 Đóng góp
+
+Mọi đóng góp đều được chào đón! Hãy:
+1. Fork project
+2. Tạo branch mới (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Mở Pull Request
+
+## 📧 Liên hệ
+
+YuanGuoHung - [@yuanguohung](https://github.com/yuanguohung)
+
+Project Link: [https://github.com/yuanguohung/NutritionApp](https://github.com/yuanguohung/NutritionApp)
