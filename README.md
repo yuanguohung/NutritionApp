@@ -1,83 +1,76 @@
-# 🥗 NutritionApp
+🍎 NutritionApp
+Ứng dụng theo dõi dinh dưỡng hằng ngày được phát triển bằng React Native và Expo, giúp người dùng ghi lại món ăn, lượng nước uống, và theo dõi lịch sử ăn uống.
+Giao diện đơn giản, dễ dùng, phù hợp cho mọi đối tượng.
 
-Ứng dụng theo dõi dinh dưỡng hằng ngày được phát triển bằng **React Native** và **Expo**, cho phép người dùng ghi lại thực phẩm đã ăn, lượng nước uống, và xem lịch sử ăn uống. Giao diện được thiết kế đơn giản, trực quan và dễ sử dụng.
+🚀 Tính năng chính
+🥗 Ghi nhật ký thực phẩm
+➤ Thêm món ăn kèm thông tin dinh dưỡng: calo, protein, carbs, chất béo
 
-## 🚀 Tính Năng
+☁️ Lưu trữ dữ liệu bằng Firebase Firestore
+➤ Bảo mật và truy cập mọi lúc mọi nơi
 
-- ✅ **Theo dõi thực phẩm hàng ngày**: Hiển thị danh sách món ăn kèm thông tin dinh dưỡng.
-- 💧 **Theo dõi lượng nước uống**.
-- 🕓 **Lịch sử ăn uống**: Xem lại nhật ký các ngày trước đó.
-- 🎨 Giao diện hiện đại, responsive.
-- 🗂️ Lưu trữ dữ liệu bằng Async Storage (hoặc Firebase nếu tích hợp thêm).
-- 🔢 **Tính TDEE (Tổng năng lượng tiêu hao mỗi ngày)**: Giúp người dùng ước lượng lượng calo cần thiết dựa trên chiều cao, cân nặng và mức độ vận động.
+💾 Hỗ trợ offline với AsyncStorage
+➤ Không cần internet vẫn hoạt động mượt
 
-## 🛠️ Công Nghệ
+🌟 Đánh dấu yêu thích
+➤ Truy cập nhanh các món ăn thường dùng
 
-- React Native + Expo
-- TypeScript
-- React Navigation
-- Async Storage
-- Custom Font (SpaceMono)
-- Modular Component Architecture
+🎨 Splash screen tùy chỉnh
+➤ Màn hình khởi động đẹp mắt, cá nhân hóa
 
-## 📁 Cấu Trúc Thư Mục
+📱 Tải về APK
+📦 nutritiontracker.apk
+Bạn có thể tải file .apk và cài đặt trực tiếp trên điện thoại Android.
 
-```
-NUTRITIONAPP/
-├── app/                      # Thư mục chính cho routing với Expo Router
-│   ├── _layout.tsx
-│   └── index.tsx
-├── assets/                   # Chứa hình ảnh, font, v.v.
-│
-├── components/               # Các thành phần giao diện tái sử dụng
-│   ├── DailyLogView.tsx
-│   ├── FoodItemCard.tsx
-│   └── MealCard.tsx
-│
-├── fonts/                    # Font tùy chỉnh
-│   └── SpaceMono-Regular.ttf
-│
-├── images/                   # Hình ảnh sử dụng trong app
-│
-├── navigation/               # Điều hướng (navigation stack/tab)
-│   └── MainNavigator.tsx
-│
-├── screens/                  # Các màn hình chính
-│   ├── FoodScreen.tsx
-│   ├── HistoryScreen.tsx
-│   └── WaterScreen.tsx
-│
-├── App.tsx                   # File chính khởi động ứng dụng
-├── app.json                  # Cấu hình cho Expo
-├── .gitignore
-```
+🛠️ Cài đặt & chạy ứng dụng
+Yêu cầu:
+✅ Node.js >= 14
 
-## ▶️ Demo
+✅ Expo CLI
 
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
-![alt text](image-3.png)
+✅ Tài khoản Firebase (nếu muốn dùng Firestore)
 
-_(Chèn link Google Drive hoặc YouTube demo nếu có)_
-
-## 👨‍💻 Tác Giả
-
-- **Nguyễn Quốc Hùng** – Đồ án cá nhân
-
-## 📝 Cài Đặt
-
-```bash
-git clone repo
-cd nutritionapp
+Cài đặt:
+bash
+Sao chép
+Chỉnh sửa
+git clone https://github.com/yuanguohung/NutritionApp.git
+cd NutritionApp
 npm install
+Chạy ứng dụng:
+bash
+Sao chép
+Chỉnh sửa
 npx expo start
-```
+📱 Mở app Expo Go trên điện thoại và quét mã QR để dùng ngay!
 
-## 📌 Ghi Chú
+📁 Cấu trúc thư mục
+bash
+Sao chép
+Chỉnh sửa
+NutritionApp/
+├── app/ # Routing (Expo Router)
+├── assets/ # Hình ảnh, icon, splash,...
+├── components/ # Các UI component tái sử dụng
+├── firebase/ # Cấu hình Firebase
+├── navigation/ # Điều hướng chính
+├── screens/ # Màn hình Food, Water, History,...
+├── services/ # Dịch vụ lưu dữ liệu
+├── App.tsx # Điểm khởi đầu
+├── app.json # Cấu hình Expo
+├── eas.json # Cấu hình EAS Build
+└── nutritriontracker.apk # File APK đã build
+🔐 Thông tin kỹ thuật
+Thành phần Công nghệ
+Ngôn ngữ TypeScript
+Framework React Native + Expo
+Lưu trữ backend Firebase Firestore
+Lưu offline AsyncStorage
+Build app EAS Build
 
-- Cần cài **Expo Go** trên điện thoại để test trực tiếp.
-- Hỗ trợ Android và iOS.
-- Font `SpaceMono` cần được load trước khi render App.
+📸 Giao diện ứng dụng
+(Chèn ảnh chụp màn hình hoặc video demo nếu có)
 
----
+📄 Giấy phép
+Dự án được phát hành theo giấy phép MIT.
+Nếu bạn có câu hỏi hoặc góp ý, hãy tạo issue tại repo này nhé!
