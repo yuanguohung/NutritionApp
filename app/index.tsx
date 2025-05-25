@@ -210,6 +210,44 @@ const Index: React.FC = () => {
         }
     };
 
+    const handleReset = async () => {
+        Alert.alert(
+            "Xác nhận",
+            "Bạn có chắc chắn muốn đặt lại tất cả các giá trị về 0?",
+            [
+                {
+                    text: "Hủy",
+                    style: "cancel"
+                },
+                {
+                    text: "Đồng ý",
+                    onPress: async () => {
+                        try {
+                            // Reset all current values
+                            setCurrentCalories(0);
+                            setCurrentProtein(0);
+                            setCurrentCarbs(0);
+                            setCurrentFats(0);
+
+                            // Reset in AsyncStorage
+                            const resetData: DailyIntakeData = {
+                                currentCalories: 0,
+                                currentProtein: 0,
+                                currentCarbs: 0,
+                                currentFats: 0,
+                            };
+                            await saveDailyIntake(resetData);
+                            Alert.alert("Thành công", "Đã đặt lại tất cả các giá trị về 0");
+                        } catch (error) {
+                            console.error('Error resetting data:', error);
+                            Alert.alert("Lỗi", "Không thể đặt lại giá trị");
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
     useEffect(() => {
         loadTargetData();
         loadDailyIntake();
@@ -283,10 +321,15 @@ const Index: React.FC = () => {
 
                     <Text>Calories: {currentCalories}/{targetCalories} kcal</Text>
                     <ProgressBar progress={caloriesProgress} color="#f44336" style={styles.progress} />
+                    
                 </View>
 
                 <TouchableOpacity style={styles.button} onPress={navigateToAddFood}>
                     <Text style={styles.buttonText}>Thêm món ăn</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.resetButton} onPress={handleReset}>
+                    <Text style={styles.resetButtonText}>Đặt lại giá trị</Text>
                 </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
@@ -348,6 +391,18 @@ const styles = StyleSheet.create({
         marginTop: 16,
     },
     buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    resetButton: {
+        backgroundColor: '#f44336',
+        padding: 14,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 16,
+    },
+    resetButtonText: {
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 16,

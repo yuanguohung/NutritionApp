@@ -6,19 +6,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
-/**
- * Represents a food item with nutritional information.
- *
- * @interface FoodItem
- * @property {string} [id] - The unique identifier for the food item (optional).
- * @property {string} name - The name of the food item.
- * @property {number} calories - The number of calories in the food item.
- * @property {number} protein - The amount of protein (in grams) in the food item.
- * @property {number} carbs - The amount of carbohydrates (in grams) in the food item.
- * @property {number} fats - The amount of fats (in grams) in the food item.
- * @property {boolean} [isFavorite] - Indicates if the food item is marked as a favorite (optional).
- * @property {string} [imageUri] - The URI of the image representing the food item (optional).
- */
+import { foodService } from '../services/foodService';
+
 interface FoodItem {
     id?: string;
     name: string;
@@ -27,7 +16,7 @@ interface FoodItem {
     carbs: number;
     fats: number;
     isFavorite?: boolean;
-    imageUri?: string; // Thêm trường mới cho ảnh
+    imageUri?: string | null;
 }
 
 const FoodScreen: React.FC = () => {
@@ -69,36 +58,38 @@ const FoodScreen: React.FC = () => {
 
     const loadData = async () => {
         try {
-            const storedCustomFood = await AsyncStorage.getItem(CUSTOM_FOOD_STORAGE_KEY);
-            const loadedCustomFood = storedCustomFood ? JSON.parse(storedCustomFood) : [];
-            const cleanedLoadedCustomFood = loadedCustomFood.map((item: FoodItem) => ({
-                ...item,
-                isFavorite: item.isFavorite ?? false,
-            }));
-            setCustomFoodData(cleanedLoadedCustomFood);
-            console.log('Custom food data loaded.');
-
+            // Load from Firestore
+            const firestoreFoods = await foodService.getAllFoods();
+            
+            // Load favorite static foods from AsyncStorage
             const storedFavoriteStatic = await AsyncStorage.getItem(FAVORITE_STATIC_STORAGE_KEY);
             const loadedFavoriteStatic = storedFavoriteStatic ? JSON.parse(storedFavoriteStatic) : [];
             setFavoriteStaticFoodNames(loadedFavoriteStatic);
-            console.log('Favorited static food names loaded.');
 
+            // Combine static and Firestore data
             const staticDataWithFavorites = staticFoodData.map(item => ({
                 ...item,
                 isFavorite: loadedFavoriteStatic.includes(item.name),
             }));
 
-            const combinedDataWithFavorites = staticDataWithFavorites.concat(cleanedLoadedCustomFood);
+            const combinedDataWithFavorites = [
+                ...staticDataWithFavorites,
+                ...firestoreFoods
+            ];
 
+            setCustomFoodData(firestoreFoods);
             setDisplayedFoodData(combinedDataWithFavorites);
 
         } catch (error) {
-            console.error('Failed to load data:', error);
-             const staticDataWithoutFavorites = staticFoodData.map(item => ({
-                 ...item,
-                 isFavorite: false,
-             }));
-             setDisplayedFoodData(staticDataWithoutFavorites);
+            console.error('Lỗi khi tải dữ liệu:', error);
+            Alert.alert('Lỗi', 'Không thể tải danh sách món ăn. Vui lòng thử lại sau.');
+            
+            // Fallback to static data if failed
+            const staticDataWithoutFavorites = staticFoodData.map(item => ({
+                ...item,
+                isFavorite: false,
+            }));
+            setDisplayedFoodData(staticDataWithoutFavorites);
         }
     };
 
@@ -108,21 +99,31 @@ const FoodScreen: React.FC = () => {
             return;
         }
 
-        const newCustomFood: FoodItem = {
-             id: Date.now().toString(),
-            ...newFoodItem,
-            isFavorite: false,
-        };
+        try {
+            const foodToAdd: FoodItem = {
+                name: newFoodItem.name,
+                calories: Number(newFoodItem.calories),
+                protein: Number(newFoodItem.protein),
+                carbs: Number(newFoodItem.carbs),
+                fats: Number(newFoodItem.fats),
+                imageUri: newFoodItem.imageUri || null,
+                isFavorite: false
+            };
 
-        const updatedCustomFood = [...customFoodData, newCustomFood];
-        setCustomFoodData(updatedCustomFood);
+            // Lưu vào Firestore
+            const savedFood = await foodService.addFood(foodToAdd);
+            
+            // Cập nhật state local
+            setCustomFoodData(prevData => [...prevData, savedFood]);
+            setDisplayedFoodData(prevData => [...prevData, savedFood]);
 
-        await saveCustomFoodData(updatedCustomFood);
-
-        Alert.alert('Thành công', `Đã thêm "${newCustomFood.name}" vào danh sách tùy chỉnh.`);
-
-        setAddModalVisible(false);
-        setNewFoodItem({ name: '', calories: 0, protein: 0, carbs: 0, fats: 0 });
+            Alert.alert('Thành công', `Đã thêm "${savedFood.name}" vào danh sách.`);
+            setAddModalVisible(false);
+            setNewFoodItem({ name: '', calories: 0, protein: 0, carbs: 0, fats: 0 });
+        } catch (error) {
+            console.error('Lỗi khi thêm món ăn:', error);
+            Alert.alert('Lỗi', 'Không thể thêm món ăn. Vui lòng thử lại sau.');
+        }
     };
 
     const handleEditFood = (foodItem: FoodItem) => {
@@ -142,28 +143,35 @@ const FoodScreen: React.FC = () => {
             return;
         }
 
-        const updatedCustomFood = customFoodData.map(item =>
-            item.id === editingFoodItem.id
-                ? { ...item, ...newFoodItem, isFavorite: editingFoodItem.isFavorite ?? false }
-                : item
-        );
-        setCustomFoodData(updatedCustomFood);
+        try {
+            // Update in Firebase
+            const updatedFood = await foodService.updateFood(editingFoodItem.id!, newFoodItem);
+            
+            // Update local state
+            const updatedCustomFood = customFoodData.map(item =>
+                item.id === editingFoodItem.id ? updatedFood : item
+            );
+            setCustomFoodData(updatedCustomFood);
 
-        await saveCustomFoodData(updatedCustomFood);
+            // Update AsyncStorage
+            await saveCustomFoodData(updatedCustomFood);
 
-        Alert.alert('Thành công', `Đã cập nhật "${newFoodItem.name}".`);
-
-        setEditModalVisible(false);
-        setEditingFoodItem(null);
-        setNewFoodItem({ name: '', calories: 0, protein: 0, carbs: 0, fats: 0 });
+            Alert.alert('Thành công', `Đã cập nhật "${updatedFood.name}".`);
+            setEditModalVisible(false);
+            setEditingFoodItem(null);
+            setNewFoodItem({ name: '', calories: 0, protein: 0, carbs: 0, fats: 0 });
+        } catch (error) {
+            console.error('Error updating food:', error);
+            Alert.alert('Lỗi', 'Không thể cập nhật món ăn. Vui lòng thử lại sau.');
+        }
     };
 
     const handleDeleteFood = async (foodItem: FoodItem) => {
         if (!foodItem.id) {
-            console.warn('Attempted to delete a food item without an ID (likely static).');
-            Alert.alert('Thông tin', 'Bạn chỉ có thể xóa các món ăn do bạn tự thêm.');
+            Alert.alert('Thông tin', 'Không thể xóa món ăn này.');
             return;
         }
+
         Alert.alert(
             'Xóa món ăn',
             `Bạn có chắc chắn muốn xóa "${foodItem.name}"?`,
@@ -173,10 +181,22 @@ const FoodScreen: React.FC = () => {
                     text: 'Xóa',
                     style: 'destructive',
                     onPress: async () => {
-                        const updatedCustomFood = customFoodData.filter(item => item.id !== foodItem.id);
-                        setCustomFoodData(updatedCustomFood);
-                        await saveCustomFoodData(updatedCustomFood);
-                        Alert.alert('Thành công', `Đã xóa "${foodItem.name}".`);
+                        try {
+                            // Delete from Firebase
+                            await foodService.deleteFood(foodItem.id!);
+                            
+                            // Update local state
+                            const updatedCustomFood = customFoodData.filter(item => item.id !== foodItem.id);
+                            setCustomFoodData(updatedCustomFood);
+                            
+                            // Update AsyncStorage
+                            await saveCustomFoodData(updatedCustomFood);
+                            
+                            Alert.alert('Thành công', `Đã xóa "${foodItem.name}".`);
+                        } catch (error) {
+                            console.error('Error deleting food:', error);
+                            Alert.alert('Lỗi', 'Không thể xóa món ăn. Vui lòng thử lại sau.');
+                        }
                     },
                 },
             ]
@@ -414,6 +434,7 @@ const FoodScreen: React.FC = () => {
                                         value={newFoodItem.name}
                                         onChangeText={(text) => setNewFoodItem({ ...newFoodItem, name: text })}
                                     />
+                                  
                                     <TextInput
                                         style={styles.modalInput}
                                         placeholder="Calories"

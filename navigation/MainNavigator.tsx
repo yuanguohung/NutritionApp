@@ -13,6 +13,7 @@ export type RootStackParamList = {
   HistoryScreen: undefined;
   Food: { addFoodItem: (foodItem: FoodItem) => void };
   Water: undefined;
+  Splash: undefined;
 };
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
@@ -37,6 +38,8 @@ export const BottomTab = () => {
             case 'Water':
               iconName = focused ? 'water' : 'water-outline';
               break;
+          case 'Splash':
+              iconName = focused ? 'nutrition' : 'nutrition-outline';
             default:
               iconName = 'help-outline';
           }
@@ -82,6 +85,7 @@ export const BottomTab = () => {
           title: 'Nước',
         }} 
       />
+      
     </Tab.Navigator>
   );
 };

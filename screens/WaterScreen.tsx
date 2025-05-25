@@ -12,6 +12,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProgressBar } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { waterService } from '../services/waterService';
 
 const DAILY_GOAL = 2000; // ml
 const WATER_STORAGE_PREFIX = 'water_';
@@ -54,15 +55,23 @@ const WaterScreen: React.FC = () => {
   // Load dữ liệu từ storage
   const loadWaterData = async (key: string) => {
     try {
+      // Load from AsyncStorage
       const storedData = await AsyncStorage.getItem(key);
-      if (storedData) {
-        const data = JSON.parse(storedData);
-        setTotal(data.total);
-        setWaterLogs(data.logs);
+      let data;
+
+      // Try to load from Firestore first
+      const firestoreData = await waterService.getTodayWaterData();
+      
+      if (firestoreData) {
+        data = firestoreData;
+      } else if (storedData) {
+        data = JSON.parse(storedData);
       } else {
-        setTotal(0);
-        setWaterLogs([]);
+        data = { total: 0, logs: [] };
       }
+
+      setTotal(data.total);
+      setWaterLogs(data.logs);
     } catch (e) {
       console.error('Lỗi khi tải dữ liệu:', e);
       Alert.alert('Lỗi', 'Không thể tải dữ liệu nước uống');
@@ -76,7 +85,16 @@ const WaterScreen: React.FC = () => {
         total: newTotal,
         logs: newLogs,
       };
+
+      // Save to AsyncStorage
       await AsyncStorage.setItem(todayKey, JSON.stringify(data));
+
+      // Save to Firestore
+      await waterService.saveWaterData({
+        total: newTotal,
+        logs: newLogs,
+        date: new Date().toISOString().split('T')[0]
+      });
     } catch (e) {
       console.error('Lỗi khi lưu dữ liệu:', e);
       Alert.alert('Lỗi', 'Không thể lưu dữ liệu nước uống');
@@ -115,7 +133,14 @@ const WaterScreen: React.FC = () => {
           style: 'destructive',
           onPress: async () => {
             try {
+              // Reset both AsyncStorage and Firestore
               await AsyncStorage.removeItem(todayKey);
+              await waterService.saveWaterData({
+                total: 0,
+                logs: [],
+                date: new Date().toISOString().split('T')[0]
+              });
+              
               setTotal(0);
               setWaterLogs([]);
             } catch (e) {

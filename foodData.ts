@@ -20,13 +20,7 @@ export const foodData = [
     carbs: 8,
     fats: 0.6
   },
-  {
-    name: "Cơm Tấm",
-    calories: 600,
-    protein: 30,
-    carbs: 80,
-    fats: 20
-  },
+
   {
     name: "Bánh Mì Thịt",
     calories: 500,
@@ -152,13 +146,7 @@ export const foodData = [
       carbs: 30,
       fats: 40
     },
-    {
-      name: "Cơm Sườn Nướng",
-      calories: 650,
-      protein: 35,
-      carbs: 70,
-      fats: 25
-    },
+
     {
       name: "Lẩu Thái",
       calories: 500,
@@ -207,18 +195,6 @@ export const foodData = [
     { name: "Gỏi Gà", calories: 300, protein: 25, carbs: 20, fats: 10 },
     { name: "Nem Nướng", calories: 400, protein: 25, carbs: 30, fats: 20 },
     { name: "Cơm Gà Xối Mỡ", calories: 600, protein: 30, carbs: 70, fats: 25 },
-  // Thêm các món ăn khác vào đây 
-  // ...
-  { name: "Bánh Mì Chả Cá", calories: 450, protein: 20, carbs: 50, fats: 15 },
-  { name: "Bánh Mì Chả Lụa", calories: 500, protein: 25, carbs: 55, fats: 20 },
-  { name: "Bánh Mì Thịt Nướng", calories: 550, protein: 30, carbs: 60, fats: 25 },
-  { name: "Bánh Mì Xíu Mại", calories: 500, protein: 25, carbs: 55, fats: 20 },
-  { name: "Bánh Mì Bò Kho", calories: 600, protein: 35, carbs: 70, fats: 25 },
-  { name: "Bánh Mì Chay", calories: 400, protein: 15, carbs: 50, fats: 10 },
-  { name: "Bánh Mì Bò Nướng", calories: 550, protein: 30, carbs: 60, fats: 25 },
-  { name: "Bánh Mì Thịt Nguyên Miếng", calories: 500, protein: 25, carbs: 55, fats: 20 },
-  { name: "Bánh Mì Thịt Bằm", calories: 450, protein: 20, carbs: 50, fats: 15 },
-  { name: "Bánh Mì Thịt Nướng Sả", calories: 550, protein: 30, carbs: 60, fats: 25 },
   // thêm món ăn khác vào đây
   // món nào ko phải bánh mì
   // thêm món nước ngoài
