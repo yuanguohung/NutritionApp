@@ -3,6 +3,7 @@
 Giao diện đơn giản, dễ dùng, phù hợp cho mọi đối tượng.
 
 🚀 Tính năng chính
+
 🥗 Ghi nhật ký thực phẩm
 ➤ Thêm món ăn kèm thông tin dinh dưỡng: calo, protein, carbs, chất béo
 
