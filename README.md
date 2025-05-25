@@ -5,22 +5,26 @@
 ## ✨ Tính năng chính
 
 ### 📝 Quản lý thực phẩm
-- Thêm/sửa/xóa món ăn 
+
+- Thêm/sửa/xóa món ăn
 - Theo dõi calories, protein, carbs, chất béo
 - Đánh dấu món ăn yêu thích
 - Tìm kiếm món ăn nhanh chóng
 
 ### 💧 Theo dõi nước uống
+
 - Ghi lại lượng nước uống hàng ngày
 - Đặt mục tiêu nước uống
 - Xem thống kê theo ngày/tuần
 
 ### 📊 Thống kê & Báo cáo
+
 - Xem lịch sử ăn uống
 - Biểu đồ dinh dưỡng trực quan
-- Phân tích chế độ ăn
+- Phân tích chế độ ăn dựa trên kết quả TDEE Calculator
 
 ### 🔄 Đồng bộ dữ liệu
+
 - Lưu trữ trên Firebase Firestore
 - Hỗ trợ sử dụng offline với AsyncStorage
 - Đồng bộ tự động khi có internet
@@ -28,6 +32,7 @@
 ## 🚀 Cài đặt
 
 ### Yêu cầu hệ thống
+
 - Node.js >= 14
 - Expo CLI
 - Tài khoản Firebase (để sử dụng Firestore)
@@ -35,17 +40,20 @@
 ### Các bước cài đặt
 
 1. Clone repository:
+
 ```bash
 git clone https://github.com/yuanguohung/NutritionApp.git
 cd NutritionApp
 ```
 
 2. Cài đặt dependencies:
+
 ```bash
 npm install
 ```
 
 3. Chạy ứng dụng:
+
 ```bash
 npx expo start
 ```
@@ -87,6 +95,7 @@ MIT License - xem file [LICENSE](LICENSE) để biết thêm chi tiết
 ## 🤝 Đóng góp
 
 Mọi đóng góp đều được chào đón! Hãy:
+
 1. Fork project
 2. Tạo branch mới (`git checkout -b feature/AmazingFeature`)
 3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
